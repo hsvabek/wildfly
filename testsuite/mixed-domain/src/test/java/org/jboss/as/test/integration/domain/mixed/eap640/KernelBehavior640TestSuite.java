@@ -20,23 +20,25 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.test.integration.domain.mixed;
+package org.jboss.as.test.integration.domain.mixed.eap640;
+
+import org.jboss.as.test.integration.domain.mixed.KernelBehaviorTestSuite;
+import org.jboss.as.test.integration.domain.mixed.Version;
+import org.junit.BeforeClass;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 /**
- * Base class for a test suite that uses a minimal domain config in order
- * to not have to deal with subsystem configuration compatibility issues
- * across releases in tests that are focused on the behavior of the kernel.
  *
  * @author Brian Stansberry
  */
-public class KernelBehaviorTestSuite extends MixedDomainTestSuite {
+@RunWith(Suite.class)
+@Suite.SuiteClasses(value= {WildcardReads640TestCase.class})
+@Version(Version.AsVersion.EAP_6_4_0)
+public class KernelBehavior640TestSuite extends KernelBehaviorTestSuite {
 
-    /**
-     * Call this from a @BeforeClass method
-     *
-     * @param testClass the test/suite class
-     */
-    public static MixedDomainTestSupport getSupport(Class<?> testClass) {
-        return getSupport(testClass, "master-config/domain-minimal.xml", false);
+    @BeforeClass
+    public static void initializeDomain() {
+        KernelBehaviorTestSuite.getSupport(KernelBehavior640TestSuite.class);
     }
 }

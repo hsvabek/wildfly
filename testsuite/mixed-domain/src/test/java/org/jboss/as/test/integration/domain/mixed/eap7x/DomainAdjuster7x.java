@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2015, Red Hat, Inc., and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -20,23 +20,24 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.test.integration.domain.mixed;
+package org.jboss.as.test.integration.domain.mixed.eap7x;
+
+import java.util.List;
+
+import org.jboss.as.controller.PathAddress;
+import org.jboss.as.controller.client.helpers.domain.DomainClient;
+import org.jboss.as.test.integration.domain.mixed.DomainAdjuster;
+import org.jboss.dmr.ModelNode;
 
 /**
- * Base class for a test suite that uses a minimal domain config in order
- * to not have to deal with subsystem configuration compatibility issues
- * across releases in tests that are focused on the behavior of the kernel.
+ * Does adjustments to the domain model for 7.0.0 legacy slaves
  *
- * @author Brian Stansberry
+ * @author <a href="mailto:kabir.khan@jboss.com">Kabir Khan</a>
  */
-public class KernelBehaviorTestSuite extends MixedDomainTestSuite {
-
-    /**
-     * Call this from a @BeforeClass method
-     *
-     * @param testClass the test/suite class
-     */
-    public static MixedDomainTestSupport getSupport(Class<?> testClass) {
-        return getSupport(testClass, "master-config/domain-minimal.xml", false);
+public class DomainAdjuster7x extends DomainAdjuster {
+    @Override
+    protected List<ModelNode> adjustForVersion(final DomainClient client, PathAddress profileAddress) throws Exception {
+        List<ModelNode> list = super.adjustForVersion(client, profileAddress);
+        return list;
     }
 }

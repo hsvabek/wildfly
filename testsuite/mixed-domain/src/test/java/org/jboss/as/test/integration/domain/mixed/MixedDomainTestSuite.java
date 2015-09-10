@@ -34,7 +34,7 @@ public class MixedDomainTestSuite {
     private static Version.AsVersion version;
 
 
-    static Version.AsVersion getVersion(Class<?> testClass) {
+    protected static Version.AsVersion getVersion(Class<?> testClass) {
         final Version version = testClass.getAnnotation(Version.class);
         if (version == null) {
             throw new IllegalArgumentException("No @Version");
@@ -60,7 +60,7 @@ public class MixedDomainTestSuite {
         }
     }
 
-    static MixedDomainTestSupport getSupport(Class<?> testClass, String domainConfig, boolean adjustDomain) {
+    protected static MixedDomainTestSupport getSupport(Class<?> testClass, String domainConfig, boolean adjustDomain) {
         if (support == null) {
             final Version.AsVersion version = getVersion(testClass);
             final MixedDomainTestSupport testSupport;
@@ -76,6 +76,32 @@ public class MixedDomainTestSuite {
             try {
                 //Start the the domain with adjustments to domain.xml
                 testSupport.start();
+                support = testSupport;
+            } catch (Exception e) {
+                testSupport.stop();
+                throw new RuntimeException(e);
+            }
+        }
+        return support;
+    }
+    
+    /**
+     * Call this from a @BeforeClass method
+     *
+     * @param testClass the test/suite class
+     */
+    protected static MixedDomainTestSupport getSupportWithoutStart(Class<?> testClass) {
+        if (support == null) {
+            final Version.AsVersion version = getVersion(testClass);
+            final MixedDomainTestSupport testSupport;
+            try {
+                testSupport = MixedDomainTestSupport.create(testClass.getSimpleName(), version);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                //Start the the domain with adjustments to domain.xml
+//                testSupport.start();
                 support = testSupport;
             } catch (Exception e) {
                 testSupport.stop();

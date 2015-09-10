@@ -94,7 +94,13 @@
 
 
     <servers>
-        <server name="server-one" group="other-server-group"/>
+        <server name="server-one" group="other-server-group">
+        	<jvm name="default"><!-- TODO Hynek 24.8.2015 -->
+	             <environment-variables>
+	                 <variable name="DOMAIN_TEST_SERVER" value="server"/>
+	             </environment-variables>
+            </jvm>
+        </server>
         <server name="server-two" group="other-server-group" auto-start="false"/>
     </servers>
 </host>

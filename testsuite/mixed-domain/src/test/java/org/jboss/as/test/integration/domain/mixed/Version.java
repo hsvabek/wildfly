@@ -43,7 +43,8 @@ public @interface Version {
     enum AsVersion {
         EAP_6_2_0(EAP, "6.2.0"),
         EAP_6_3_0(EAP, "6.3.0"),
-        EAP_6_4_0(EAP, "6.4.0");
+        EAP_6_4_0(EAP, "6.4.0"),
+        EAP_7_0_0(EAP, "7.0.0");
 
         final String basename;
         final String version;
@@ -66,6 +67,11 @@ public @interface Version {
         }
         public String getZipFileName() {
             return  getFullVersionName() + ".zip";
+        }
+        
+        
+        public boolean isEap7xVersion(){
+            return EAP_7_0_0 == this;
         }
     }
 

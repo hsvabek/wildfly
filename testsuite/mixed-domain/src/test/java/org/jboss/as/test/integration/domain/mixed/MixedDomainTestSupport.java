@@ -34,6 +34,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.TimeoutException;
 
 import org.jboss.as.controller.PathAddress;
 import org.jboss.as.controller.operations.common.Util;
@@ -65,11 +66,23 @@ public class MixedDomainTestSupport extends DomainTestSupport {
     public static MixedDomainTestSupport create(String testClass, Version.AsVersion version) throws Exception {
         return create(testClass, version, STANDARD_DOMAIN_CONFIG, true);
     }
+    
+    public static MixedDomainTestSupport create(String testClass, Version.AsVersion version, String hostMasterXmlPath, String hostSlaveXmlPath, boolean adjustDomain) throws Exception {
+        return create(testClass, version, STANDARD_DOMAIN_CONFIG, hostMasterXmlPath, hostSlaveXmlPath, adjustDomain);
+    }
 
     public static MixedDomainTestSupport create(String testClass, Version.AsVersion version, String domainConfig, boolean adjustDomain) throws Exception {
+        if(!version.isEap7xVersion()){
+            return create(testClass, version, domainConfig, "master-config/host.xml", "slave-config/host-slave.xml", adjustDomain);
+        }else{
+            return create(testClass, version, domainConfig, "master-config/host7.xml", "slave-config/host7-slave.xml", adjustDomain);
+        }
+    }
+    
+    public static MixedDomainTestSupport create(String testClass, Version.AsVersion version, String domainConfig, String hostMasterXmlPath, String hostSlaveXmlPath, boolean adjustDomain) throws Exception {
         final File dir = OldVersionCopier.expandOldVersion(version);
-        return new MixedDomainTestSupport(version, testClass, domainConfig, "master-config/host.xml",
-                "slave-config/host-slave.xml", dir.getAbsolutePath(), adjustDomain);
+        return new MixedDomainTestSupport(version, testClass, domainConfig, hostMasterXmlPath,
+                hostSlaveXmlPath, dir.getAbsolutePath(), adjustDomain);
     }
 
     public void start() {
@@ -79,39 +92,43 @@ public class MixedDomainTestSupport extends DomainTestSupport {
             super.start();
         }
     }
+    
+    public void startMaster() throws Exception, IOException, InterruptedException, TimeoutException {
+        //to test in the mixed domain and have the DomainAdjuster
+        //strip down the domain model to something more workable. The domain
+        //adjusters will also make adjustments for the legacy version being
+        //tested.
+        DomainLifecycleUtil masterUtil = getDomainMasterLifecycleUtil();
+        masterUtil.getConfiguration().setAdminOnly(true);
+        //masterUtil.getConfiguration().addHostCommandLineProperty("-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y");
+        masterUtil.start();
+        DomainAdjuster.adjustForVersion(masterUtil.getDomainClient(), version);
+
+        //Now reload the master in normal mode
+        masterUtil.executeAwaitConnectionClosed(Util.createEmptyOperation("reload", PathAddress.pathAddress(HOST, "master")));
+        masterUtil.connect();
+        masterUtil.awaitHostController(System.currentTimeMillis());
+    }
+    
+    public void startSlaves() {
+        //Start the slaves
+        DomainLifecycleUtil slaveUtil = getDomainSlaveLifecycleUtil();
+        if (slaveUtil != null) {
+            //slaveUtil.getConfiguration().addHostCommandLineProperty("-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y");
+            slaveUtil.start();
+        }
+    }
 
     private void startAndAdjust() {
-
         try {
-            //Start the master in admin only  and reconfigure the domain with what
-            //we want to test in the mixed domain and have the DomainAdjuster
-            //strip down the domain model to something more workable. The domain
-            //adjusters will also make adjustments for the legacy version being
-            //tested.
-            DomainLifecycleUtil masterUtil = getDomainMasterLifecycleUtil();
-            masterUtil.getConfiguration().setAdminOnly(true);
-            //masterUtil.getConfiguration().addHostCommandLineProperty("-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y");
-            masterUtil.start();
-            DomainAdjuster.adjustForVersion(masterUtil.getDomainClient(), version);
-
-            //Now reload the master in normal mode
-            masterUtil.executeAwaitConnectionClosed(Util.createEmptyOperation("reload", PathAddress.pathAddress(HOST, "master")));
-            masterUtil.connect();
-            masterUtil.awaitHostController(System.currentTimeMillis());
-
-            //Start the slaves
-            DomainLifecycleUtil slaveUtil = getDomainSlaveLifecycleUtil();
-            if (slaveUtil != null) {
-                //slaveUtil.getConfiguration().addHostCommandLineProperty("-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y");
-                slaveUtil.start();
-            }
-
+            startMaster();
+            startSlaves();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    static String copyDomainFile() {
+    public static String copyDomainFile() {
 
         final File originalDomainXml = loadFile("target", "jbossas", "domain", "configuration", "domain.xml");
         final File targetDirectory = createDirectory("target", "test-classes", "copied-master-config");

@@ -53,6 +53,7 @@ import org.jboss.as.test.integration.domain.management.util.DomainTestUtils;
 import org.jboss.as.test.integration.domain.mixed.eap620.DomainAdjuster620;
 import org.jboss.as.test.integration.domain.mixed.eap630.DomainAdjuster630;
 import org.jboss.as.test.integration.domain.mixed.eap640.DomainAdjuster640;
+import org.jboss.as.test.integration.domain.mixed.eap7x.DomainAdjuster7x;
 import org.jboss.dmr.ModelNode;
 import org.junit.Assert;
 
@@ -95,14 +96,17 @@ public class DomainAdjuster {
             case EAP_6_4_0:
                 adjuster = new DomainAdjuster640();
                 break;
+            case EAP_7_0_0:
+                adjuster = new DomainAdjuster7x();
+                break;
             default:
                 adjuster = new DomainAdjuster();
         }
 
-        adjuster.adjust(client);
+        adjuster.adjust(client, asVersion);
     }
 
-    final void adjust(final DomainClient client) throws Exception {
+    final void adjust(final DomainClient client, final Version.AsVersion asVersion) throws Exception {
         //Trim it down so we have only
         //profile=full-ha,
         //the main-server-group and other-server-group
@@ -119,10 +123,12 @@ public class DomainAdjuster {
             removeProfile(client, profileName);
         }
 
-        removeIpv4SystemProperty(client);
+        if(!asVersion.isEap7xVersion()){
+            removeIpv4SystemProperty(client);
 
-        //Add a jaspi test security domain used later by the tests
-        addJaspiTestSecurityDomain(client);
+            //Add a jaspi test security domain used later by the tests
+            addJaspiTestSecurityDomain(client);
+        }
 
         //Version specific changes
         final List<ModelNode> adjustments = adjustForVersion(client, PathAddress.pathAddress(PROFILE, FULL_HA));

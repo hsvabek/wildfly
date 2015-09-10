@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2015, Red Hat, Inc., and individual contributors
+ * Copyright 2011, Red Hat, Inc., and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -20,23 +20,24 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.test.integration.domain.mixed;
+package org.jboss.as.test.integration.domain.mixed.eap630;
+
+import org.jboss.as.test.integration.domain.mixed.DefaultConfigSmokeTestCase;
+import org.jboss.as.test.integration.domain.mixed.Version;
+import org.jboss.as.test.integration.domain.mixed.Version.AsVersion;
+import org.junit.BeforeClass;
 
 /**
- * Base class for a test suite that uses a minimal domain config in order
- * to not have to deal with subsystem configuration compatibility issues
- * across releases in tests that are focused on the behavior of the kernel.
+ * Ensures the default domain.xml and host.xml start.
  *
- * @author Brian Stansberry
+ * @author Brian Stansberry (c) 2013 Red Hat Inc.
  */
-public class KernelBehaviorTestSuite extends MixedDomainTestSuite {
+@Version(AsVersion.EAP_6_3_0)
+public class DefaultConfigSmoke630TestCase extends DefaultConfigSmokeTestCase{
 
-    /**
-     * Call this from a @BeforeClass method
-     *
-     * @param testClass the test/suite class
-     */
-    public static MixedDomainTestSupport getSupport(Class<?> testClass) {
-        return getSupport(testClass, "master-config/domain-minimal.xml", false);
+    @BeforeClass
+    public static void beforeClass() throws Exception {
+        before(DefaultConfigSmoke630TestCase.class);
     }
+    
 }

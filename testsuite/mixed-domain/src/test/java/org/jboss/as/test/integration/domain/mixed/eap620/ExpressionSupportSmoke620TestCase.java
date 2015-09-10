@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2015, Red Hat, Inc., and individual contributors
+ * Copyright 2012, Red Hat, Inc., and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -20,23 +20,23 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.test.integration.domain.mixed;
+package org.jboss.as.test.integration.domain.mixed.eap620;
+
+import org.jboss.as.test.integration.domain.mixed.ExpressionSupportSmokeTestCase;
+import org.jboss.as.test.integration.domain.mixed.Version;
+import org.jboss.as.test.integration.domain.mixed.Version.AsVersion;
+import org.junit.BeforeClass;
 
 /**
- * Base class for a test suite that uses a minimal domain config in order
- * to not have to deal with subsystem configuration compatibility issues
- * across releases in tests that are focused on the behavior of the kernel.
+ * Smoke test of expression support.
  *
- * @author Brian Stansberry
+ * @author Brian Stansberry (c) 2012 Red Hat Inc.
  */
-public class KernelBehaviorTestSuite extends MixedDomainTestSuite {
+@Version(AsVersion.EAP_6_2_0)
+public class ExpressionSupportSmoke620TestCase extends ExpressionSupportSmokeTestCase{
 
-    /**
-     * Call this from a @BeforeClass method
-     *
-     * @param testClass the test/suite class
-     */
-    public static MixedDomainTestSupport getSupport(Class<?> testClass) {
-        return getSupport(testClass, "master-config/domain-minimal.xml", false);
+    @BeforeClass
+    public static void beforeClass() throws Exception {
+        before(ExpressionSupportSmoke620TestCase.class);
     }
 }
