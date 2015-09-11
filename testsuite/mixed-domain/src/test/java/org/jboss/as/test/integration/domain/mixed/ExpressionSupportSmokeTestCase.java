@@ -162,10 +162,6 @@ public abstract class ExpressionSupportSmokeTestCase  {
 
     @Before
     public void setUp() throws IOException {
-//        support = MixedDomainTestSuite.getSupportWithoutStart(this.getClass());
-//        version = MixedDomainTestSuite.getVersion(this.getClass());
-        
-//        final WildFlyManagedConfiguration config = createConfiguration("domain.xml", "host.xml", getClass().getSimpleName());
         WildFlyManagedConfiguration config = support.getDomainMasterConfiguration();
         
         config.setAdminOnly(true);

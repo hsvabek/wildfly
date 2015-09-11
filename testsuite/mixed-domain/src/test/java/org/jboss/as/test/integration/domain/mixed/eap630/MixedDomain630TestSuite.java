@@ -30,9 +30,7 @@ import org.jboss.as.test.integration.domain.mixed.eap630.cli.DeployAllServerGrou
 import org.jboss.as.test.integration.domain.mixed.eap630.cli.DeploySingleServerGroup630TestCase;
 import org.jboss.as.test.integration.domain.mixed.eap630.cli.DomainDeployWithRuntimeName630TestCase;
 import org.jboss.as.test.integration.domain.mixed.eap630.cli.DomainDeploymentOverlay630TestCase;
-import org.jboss.as.test.integration.domain.mixed.eap630.cli.Jms630TestCase;
 import org.jboss.as.test.integration.domain.mixed.eap630.cli.RolloutPlan630TestCase;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -50,7 +48,6 @@ import org.junit.runners.Suite.SuiteClasses;
         DeploySingleServerGroup630TestCase.class,
         DomainDeploymentOverlay630TestCase.class,
         DomainDeployWithRuntimeName630TestCase.class,
-        Jms630TestCase.class,
         RolloutPlan630TestCase.class,
         Datasource630TestCase.class,
         DefaultConfigSmoke630TestCase.class,

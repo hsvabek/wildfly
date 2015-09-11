@@ -120,7 +120,7 @@
 
 	<servers>
         <server name="server-one" group="other-server-group">
-        	<socket-bindings socket-binding-group="full-ha-sockets"/><!-- TODO Hynek 24.8.2015 -->
+<!--         	<socket-bindings socket-binding-group="full-ha-sockets"/>TODO Hynek 24.8.2015 -->
         	<jvm name="default"><!-- TODO Hynek 24.8.2015 -->
 	             <environment-variables>
 	                 <variable name="DOMAIN_TEST_SERVER" value="server"/>

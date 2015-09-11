@@ -25,21 +25,11 @@ package org.jboss.as.test.integration.domain.mixed.eap7x;
 import org.jboss.as.test.integration.domain.mixed.MixedDomainTestSuite;
 import org.jboss.as.test.integration.domain.mixed.Version;
 import org.jboss.as.test.integration.domain.mixed.Version.AsVersion;
-import org.jboss.as.test.integration.domain.mixed.eap7x.Datasource7xTestCase;
-import org.jboss.as.test.integration.domain.mixed.eap7x.DefaultConfigSmoke7xTestCase;
-import org.jboss.as.test.integration.domain.mixed.eap7x.DeploymentOverlay7xTestCase;
-import org.jboss.as.test.integration.domain.mixed.eap7x.ExpressionSupportSmoke7xTestCase;
-import org.jboss.as.test.integration.domain.mixed.eap7x.MixedDomainDeployment7xTestCase;
-import org.jboss.as.test.integration.domain.mixed.eap7x.OrderedChildResources7xTestCase;
-import org.jboss.as.test.integration.domain.mixed.eap7x.ReadEnvironmentVariables7xTestCase;
-import org.jboss.as.test.integration.domain.mixed.eap7x.SimpleMixedDomain7xTestCase;
-import org.jboss.as.test.integration.domain.mixed.eap7x.SlaveHostControllerAuthentication7xTestCase;
 import org.jboss.as.test.integration.domain.mixed.eap7x.cli.DataSourceCli7xTestCase;
 import org.jboss.as.test.integration.domain.mixed.eap7x.cli.DeployAllServerGroups7xTestCase;
 import org.jboss.as.test.integration.domain.mixed.eap7x.cli.DeploySingleServerGroup7xTestCase;
 import org.jboss.as.test.integration.domain.mixed.eap7x.cli.DomainDeployWithRuntimeName7xTestCase;
 import org.jboss.as.test.integration.domain.mixed.eap7x.cli.DomainDeploymentOverlay7xTestCase;
-import org.jboss.as.test.integration.domain.mixed.eap7x.cli.Jms7xTestCase;
 import org.jboss.as.test.integration.domain.mixed.eap7x.cli.RolloutPlan7xTestCase;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -59,7 +49,6 @@ import org.junit.runners.Suite.SuiteClasses;
         DeploySingleServerGroup7xTestCase.class,
         DomainDeploymentOverlay7xTestCase.class,
         DomainDeployWithRuntimeName7xTestCase.class,
-        Jms7xTestCase.class,
         RolloutPlan7xTestCase.class,
         Datasource7xTestCase.class,
         DefaultConfigSmoke7xTestCase.class,

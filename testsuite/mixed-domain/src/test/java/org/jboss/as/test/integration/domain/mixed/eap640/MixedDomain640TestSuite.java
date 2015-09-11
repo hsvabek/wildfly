@@ -25,21 +25,11 @@ package org.jboss.as.test.integration.domain.mixed.eap640;
 import org.jboss.as.test.integration.domain.mixed.MixedDomainTestSuite;
 import org.jboss.as.test.integration.domain.mixed.Version;
 import org.jboss.as.test.integration.domain.mixed.Version.AsVersion;
-import org.jboss.as.test.integration.domain.mixed.eap640.Datasource640TestCase;
-import org.jboss.as.test.integration.domain.mixed.eap640.DefaultConfigSmoke640TestCase;
-import org.jboss.as.test.integration.domain.mixed.eap640.DeploymentOverlay640TestCase;
-import org.jboss.as.test.integration.domain.mixed.eap640.ExpressionSupportSmoke640TestCase;
-import org.jboss.as.test.integration.domain.mixed.eap640.MixedDomainDeployment640TestCase;
-import org.jboss.as.test.integration.domain.mixed.eap640.OrderedChildResources640TestCase;
-import org.jboss.as.test.integration.domain.mixed.eap640.ReadEnvironmentVariables640TestCase;
-import org.jboss.as.test.integration.domain.mixed.eap640.SimpleMixedDomain640TestCase;
-import org.jboss.as.test.integration.domain.mixed.eap640.SlaveHostControllerAuthentication640TestCase;
 import org.jboss.as.test.integration.domain.mixed.eap640.cli.DataSourceCli640TestCase;
 import org.jboss.as.test.integration.domain.mixed.eap640.cli.DeployAllServerGroups640TestCase;
 import org.jboss.as.test.integration.domain.mixed.eap640.cli.DeploySingleServerGroup640TestCase;
 import org.jboss.as.test.integration.domain.mixed.eap640.cli.DomainDeployWithRuntimeName640TestCase;
 import org.jboss.as.test.integration.domain.mixed.eap640.cli.DomainDeploymentOverlay640TestCase;
-import org.jboss.as.test.integration.domain.mixed.eap640.cli.Jms640TestCase;
 import org.jboss.as.test.integration.domain.mixed.eap640.cli.RolloutPlan640TestCase;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -59,7 +49,6 @@ import org.junit.runners.Suite.SuiteClasses;
         DeploySingleServerGroup640TestCase.class,
         DomainDeploymentOverlay640TestCase.class,
         DomainDeployWithRuntimeName640TestCase.class,
-        Jms640TestCase.class,
         RolloutPlan640TestCase.class,
         Datasource640TestCase.class,
         DefaultConfigSmoke640TestCase.class,
