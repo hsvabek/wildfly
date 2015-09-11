@@ -94,8 +94,9 @@ public class MixedDomainTestSuite {
         if (support == null) {
             final Version.AsVersion version = getVersion(testClass);
             final MixedDomainTestSupport testSupport;
+            final String copiedDomainXml = MixedDomainTestSupport.copyDomainFile();
             try {
-                testSupport = MixedDomainTestSupport.create(testClass.getSimpleName(), version);
+                testSupport = MixedDomainTestSupport.create(testClass.getSimpleName(), version, copiedDomainXml, true);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
